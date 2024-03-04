@@ -125,9 +125,9 @@ def get_js_paths(url, proxy=None) -> str:
             save_js_file(url, path)
 
         # 将逐个分离的不匹配的JavaScript目录路径写入文件
+        path = '\n'.join(i for i in separated_dirs)
         with open('js_separated.txt', 'w', encoding='utf-8') as file:
-            for path in separated_dirs:
-                file.write(path + '\n')
+            file.write(path)
 
     except requests.exceptions.RequestException as e:
         print(f"请求错误:{e}")
