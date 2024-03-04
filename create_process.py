@@ -27,6 +27,7 @@ class Scanner():
         cpu_count = multiprocessing.cpu_count()
         cpu_count *= 5
         cpu_count = self.max_cpu if self.max_cpu is not None and self.max_cpu <= cpu_count * 5 else cpu_count
+        cpu_count = 60 if cpu_count > 60 else cpu_count # 多于63个进程会导致报错
         cpu_count = self.force_cpu if self.force_cpu is not None else cpu_count
         try:
             with multiprocessing.Pool(cpu_count) as pool:
