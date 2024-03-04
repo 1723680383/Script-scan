@@ -1,5 +1,0 @@
-Ueditor.all.min.js
-kindeditor.js
-ckfinder/ckfinder.js
-ckfinder.js
-ckeditor.js

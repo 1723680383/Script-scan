@@ -1,6 +1,0 @@
-net/controller.ashx?action=catchimage
-net/imageUp.ashx
-1.4.3/net/controller.ashx?action=catchimage
-controller.ashx?action=catchimage
-imageUp.ashx
-ueditor.all.min.js

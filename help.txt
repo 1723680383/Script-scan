@@ -1,6 +1,0 @@
-
-特别声明：该脚本目前只针对于ASP.NET的站点
-目前支持扫描的编辑器有    
-kindeditor  ueditor  fckeditor  ckeditor  ckfinder  Cuteditor
-感谢JSfinder模块的技术支持：L@2uR1te 师傅
-本人QQ：1723680383
