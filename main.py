@@ -1,13 +1,13 @@
 import argparse
 import config
 import sys  # 添加这行导入语句
+if sys.version_info.major < 3 or sys.version_info.minor < 10:
+    print('请使用Python3.10及以上版本运行')
+    sys.exit(1)
 import create_process
 from colorama import Fore, Style
 from config import set_request_defaults, print_banner
 
-if sys.version_info.major < 3 or sys.version_info.minor < 10:
-    print('请使用Python3.10及以上版本运行')
-    sys.exit(1)
 
 # 使用 argparse 定义命令行参数和帮助信息
 parser = argparse.ArgumentParser(description="script-scan  (by 叫我十一大人)")
