@@ -15,6 +15,8 @@ kindeditor  Ueditor  Fckeditor  Ckeditor  Ckfinder  Cuteditor
 - [x] **提取JS中的敏感信息：** 参数 -find 启动findinfo模块，提取JS文件中的敏感信息
 
 # 演示
+python main.py
+![微信截图_20240305140816](https://github.com/1723680383/script-scan/assets/120783630/669050f2-c889-40c3-9889-51172ff34452)
 
 
 # 更新日志
