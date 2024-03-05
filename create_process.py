@@ -26,7 +26,7 @@ class Scanner():
     def start(self) -> None:
         cpu_count = multiprocessing.cpu_count()
         cpu_count *= 5
-        cpu_count = self.max_cpu if self.max_cpu is not None and self.max_cpu <= cpu_count * 5 else cpu_count
+        cpu_count = self.max_cpu if self.max_cpu is not None and self.max_cpu <= cpu_count else cpu_count
         cpu_count = 60 if cpu_count > 60 else cpu_count # 多于63个进程会导致报错
         cpu_count = self.force_cpu if self.force_cpu is not None else cpu_count
         try:
@@ -43,7 +43,9 @@ class Scanner():
             os.system('pause')
 
 def start(urls:list[str], proxy:str|None, max_cpu:str|None, force_cpu:str|None) -> None:
-    max_cpu = int(max_cpu) if max_cpu is not None else None
+    max_cpu = int(max_cpu) if max_cpu is not None else 2 #默认为2进程
     force_cpu = int(force_cpu) if force_cpu is not None else None
+    if force_cpu is not None and force_cpu > 60:
+        print(f'{Fore.RED}警告:您设置的进程数过多,在部分系统可能导致出错{Fore.RESET}')
     scanner = Scanner(urls,proxy=proxy,max_cpu=max_cpu,force_cpu=force_cpu)
     scanner.start()

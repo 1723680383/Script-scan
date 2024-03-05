@@ -1,13 +1,13 @@
 import argparse
 import config
 import sys  # 添加这行导入语句
+if sys.version_info.major < 3 or sys.version_info.minor < 10:
+    print('请使用Python3.10及以上版本运行')
+    sys.exit(1)
 import create_process
 from colorama import Fore, Style
 from config import set_request_defaults, print_banner
 
-if sys.version_info.major < 3 or sys.version_info.minor < 10:
-    print('请使用Python3.10及以上版本运行')
-    sys.exit(1)
 
 # 使用 argparse 定义命令行参数和帮助信息
 parser = argparse.ArgumentParser(description="script-scan  (by 叫我十一大人)")
@@ -15,7 +15,7 @@ parser.add_argument("-u", "--url", help="扫描单个URL")
 parser.add_argument("-f", "--file", help="从文本文件扫描URL")
 parser.add_argument("-p", "--proxy", help="使用代理，格式如 http://127.0.0.1:8080")
 parser.add_argument("-find", "--findinfo", help="提取JS文件中的敏感信息,植为1时开启")
-parser.add_argument('-c', '--cpu', help='设置多进程数量上限,不能超过cpu核心数*5')
+parser.add_argument('-c', '--cpu', help='设置多进程数量上限,不能超过cpu核心数*5,默认是2')
 parser.add_argument('--force_cpu', help='强制设置多进程的数量')
 args = parser.parse_args()
 
