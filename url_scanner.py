@@ -37,7 +37,7 @@ main_paths = [
 # 子路径文件夹
 path_files_folder = 'path_files'
 
-def scan_urls(url, proxy=None, find=None) -> str:
+def scan_urls(url, proxy=None, find=False) -> str:
     res:list[str] = ['='*120 + '\n']
     try:
         print("正在测试URL:"+url+"\n")

@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(description="script-scan  (by 叫我十一大�
 parser.add_argument("-u", "--url", help="扫描单个URL")
 parser.add_argument("-f", "--file", help="从文本文件扫描URL")
 parser.add_argument("-p", "--proxy", help="使用代理，格式如 http://127.0.0.1:8080")
-parser.add_argument("-find", "--findinfo", help="提取JS文件中的敏感信息,植为1时开启")
+parser.add_argument("-find", "--findinfo", help="提取JS文件中的敏感信息,值为1或T时开启")
 parser.add_argument('-c', '--cpu', help='设置多进程数量上限,不能超过cpu核心数*5,默认是2')
 parser.add_argument('--force_cpu', help='强制设置多进程的数量')
 args = parser.parse_args()
@@ -25,11 +25,11 @@ if __name__ == "__main__":
 
     if args.url:
         url_to_scan = args.url
-        create_process.start([url_to_scan], proxy=args.proxy, max_cpu=args.cpu, force_cpu=args.force_cpu)
+        create_process.start([url_to_scan], proxy=args.proxy, max_cpu=args.cpu, force_cpu=args.force_cpu, find=args.findinfo)
     elif args.file:
         with open(args.file, 'r') as file:
             target_urls = [i for i in file.read().splitlines() if i.startswith('http')]
-        create_process.start(target_urls, proxy=args.proxy, max_cpu=args.cpu, force_cpu=args.force_cpu)
+        create_process.start(target_urls, proxy=args.proxy, max_cpu=args.cpu, force_cpu=args.force_cpu, find=args.findinfo)
     else:
         # 如果没有提供参数，打印帮助信息
         parser.print_help()

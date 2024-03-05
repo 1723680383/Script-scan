@@ -1,5 +1,0 @@
-/Scripts/mySelect/
-/Scripts/libs/
-/Scripts/StatisticsCount/
-/Scripts/
-/Scripts/My97DatePicker/

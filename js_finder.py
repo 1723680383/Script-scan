@@ -144,11 +144,11 @@ def get_js_paths(url, proxy=None, find=None) -> str:
     
     # 继续执行其他操作
     #提取敏感信息
-    if find == 1:
+    if find == True:
         print("正在提取JS文件中加载的敏感信息")
         vars = findinfo.scan_findinfo()
         if len(vars) != 0:
-            res = '-'*30 + f'\n{url+"的敏感文件":^30}\n' + '-'*30 + '\n' + '\n'.join(vars) + '\n'
+            res = '-'*30 + f'\n{url+"的敏感信息":^30}\n' + '-'*30 + '\n' + '\n'.join(vars) + '\n'
         #删除js目录下的所有文件，保证网站JS文件唯一
         delete_files_in_js_directory()
     
