@@ -1,4 +1,4 @@
-# 简介
+![image](https://github.com/1723680383/script-scan/assets/120783630/6162a926-e379-479d-a47c-129dd5f82980)# 简介
 
 > 本项目是针对于ASP.NET的站点的第三方编辑器扫描器，同时还能检测目录遍历漏洞和JS文件中敏感信息的提取。
 
@@ -15,8 +15,11 @@ kindeditor  Ueditor  Fckeditor  Ckeditor  Ckfinder  Cuteditor
 - [x] **提取JS中的敏感信息：** 参数 -find 启动findinfo模块，提取JS文件中的敏感信息
 
 # 演示
+运行主界面
 python main.py
 ![微信截图_20240305140816](https://github.com/1723680383/script-scan/assets/120783630/669050f2-c889-40c3-9889-51172ff34452)
+扫描单个URL
+![2](https://github.com/1723680383/script-scan/assets/120783630/2bdfad72-3288-40d5-84ba-84709178efc1)
 
 
 # 更新日志
