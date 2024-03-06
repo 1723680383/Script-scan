@@ -43,8 +43,8 @@ def scan_urls(url, proxy=None, find=False) -> str:
         print("正在测试URL:"+url+"\n")
         global_main_paths_not_found = True
         response = send_http_request(url, verify=False, timeout=5, headers=config.custom_headers, proxy=proxy)  # 传递代理参数
-        if response is None:# 直接跳过
-            print(f'{Fore.RED}响应错误,跳过该站点({url}){Fore.RESET}')
+        if response == -1:# 直接跳过
+            print(f'{Fore.RED}响应超时,跳过该站点({url}){Fore.RESET}')
             return ['']
         if response.status_code == 200:
             for main_path in main_paths:
@@ -63,8 +63,8 @@ def scan_urls(url, proxy=None, find=False) -> str:
                 #print(target_url)
                 try:
                     response = send_http_request(target_url, verify=False, timeout=5, headers=config.custom_headers, proxy=proxy)
-                    if response is None:
-                        print(f'{Fore.RED}响应错误,跳过该站点{Fore.RESET}')
+                    if response == -1:
+                        print(f'{Fore.RED}响应超时,跳过该站点{Fore.RESET}')
                         break
                     if response.status_code in [200, 403]:
                         main_path_found = True
@@ -95,8 +95,8 @@ def scan_urls(url, proxy=None, find=False) -> str:
                             #print(response.status_code)  # 输出状态码
                             #print(response.headers)  # 输出头部信息
                             #print(response.text)  # 输出响应体的内容
-                            if response is None:
-                                print(f'{Fore.RED}响应错误,跳过该站点{Fore.RESET}')
+                            if response == -1:
+                                print(f'{Fore.RED}响应超时,跳过该站点{Fore.RESET}')
                                 break
                             if response.status_code == 302:
                                 # 如果状态码为302，跳过当前URL
@@ -180,8 +180,8 @@ def scan_urls(url, proxy=None, find=False) -> str:
                     for payload in payloads:
                         complete_url = url + js_path + payload
                         response = send_http_request(complete_url, verify=False, timeout=10, headers=config.custom_headers, proxy=proxy)
-                        if response is None:
-                            print(f'{Fore.RED}响应错误,跳过该站点{Fore.RESET}')
+                        if response == -1:
+                            print(f'{Fore.RED}响应超时,跳过该站点{Fore.RESET}')
                             skip = True
                             break
                         try:

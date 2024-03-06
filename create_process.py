@@ -6,6 +6,7 @@
 @Desc    : 本部分是对任务进行多进程的调配
 '''
 import os
+import js_finder
 import url_scanner
 import multiprocessing
 from pathlib import Path
@@ -32,6 +33,7 @@ class Scanner():
         cpu_count = self.force_cpu if self.force_cpu is not None else cpu_count
         try:
             with multiprocessing.Pool(cpu_count) as pool:
+                js_finder.delete_files_in_js_directory()#清理一下js文件
                 res_list = pool.imap_unordered(self.worker,[(i,self.proxy,self.find) for i in self.urls])
                 for res in tqdm(res_list, total=self.total, desc='当前进度'):
                     self.finish += 1

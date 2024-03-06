@@ -4,11 +4,11 @@ import requests
 import sys
 import os
 
-def scan_findinfo() -> list[str]:
+def scan_findinfo(id:str) -> list[str]:
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36"}
 
-    fileurl = "/findinfo/JS"
+    fileurl = f"/findinfo/JS/{id}"
 
     filemkdir = fileurl.split('_')[0]
     if not os.path.exists(filemkdir):

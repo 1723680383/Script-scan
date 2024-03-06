@@ -1,5 +1,7 @@
 import requests
 import os
+import time
+import traceback
 from bs4 import BeautifulSoup
 from config import Color
 from colorama import Fore, Style
@@ -36,17 +38,23 @@ def delete_files_in_js_directory():
         # 检查JS目录是否存在
         if os.path.exists(js_directory):
             # 删除JS目录中的所有文件
-            for file_name in os.listdir(js_directory):
-                file_path = os.path.join(js_directory, file_name)
-                if os.path.isfile(file_path):
-                    os.remove(file_path)
+            for id in os.listdir(js_directory):
+                id_path = os.path.join(js_directory,id)
+                if not os.path.isdir(id_path):
+                    os.remove(id_path)
+                    continue
+                for file_name in os.listdir(id_path):
+                    file_path = os.path.join(id_path, file_name)
+                    if os.path.isfile(file_path):
+                        os.remove(file_path)
+                os.removedirs(id_path)
         else:
             print('在 findinfo 目录中未找到 "JS" 目录。')
     except Exception as e:
         print(f'发生错误：{e}')
 
 
-def save_js_file(base_url, js_path):
+def save_js_file(base_url, js_path, id:str):
     try:
         # 获取JS文件内容
         js_url = urljoin(base_url, js_path)
@@ -58,13 +66,15 @@ def save_js_file(base_url, js_path):
         js_filename = os.path.basename(js_path)
 
         # 构造保存路径
-        save_path = os.path.join('findinfo', 'js', js_filename)
-
+        save_path = os.path.join('findinfo', 'js', id)
+        if not os.path.exists(save_path):
+            os.mkdir(save_path)
+        save_path = os.path.join(save_path, js_filename)
         # 保存JS文件
         with open(save_path, 'wb') as js_file:  # 使用二进制模式保存
             js_file.write(js_content)
-    except Exception as e:
-        print(f"保存JS文件时发生错误")
+    except Exception:
+        print(f"保存JS文件时发生错误:{traceback.format_exc()}")
 
 
 def get_js_paths(url, proxy=None, find=None) -> str:
@@ -106,7 +116,7 @@ def get_js_paths(url, proxy=None, find=None) -> str:
             for i in range(1, min(max_directory_levels + 1, len(directory_parts) - 1)):
                 subpath = '/'.join(directory_parts[:i+1]) + '/'
                 separated_dirs.add(subpath)
-
+        id = str(time.time()).replace('.','')
         # 打印所有JavaScript文件的路径
         for path in filtered_js_paths:
             matching_rule = None
@@ -122,7 +132,7 @@ def get_js_paths(url, proxy=None, find=None) -> str:
             else:
                 print("目标JS文件:", path)
             # 保存JS文件到目标目录
-            save_js_file(url, path)
+            save_js_file(url, path, id)
 
         # 将逐个分离的不匹配的JavaScript目录路径写入文件
         path = '\n'.join(i for i in separated_dirs)
@@ -146,11 +156,11 @@ def get_js_paths(url, proxy=None, find=None) -> str:
     #提取敏感信息
     if find == True:
         print("正在提取JS文件中加载的敏感信息")
-        vars = findinfo.scan_findinfo()
+        vars = findinfo.scan_findinfo(id)
         if len(vars) != 0:
             res = '-'*30 + f'\n{url+"的敏感信息":^30}\n' + '-'*30 + '\n' + '\n'.join(vars) + '\n'
-        #删除js目录下的所有文件，保证网站JS文件唯一
-        delete_files_in_js_directory()
+    #删除js目录下的所有文件，保证网站JS文件唯一
+    delete_files_in_js_directory()
     
     print("正在提取JS文件路径进行爆破")
     return res
