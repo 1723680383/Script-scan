@@ -2,6 +2,6 @@
 特别声明：该脚本目前只针对于ASP.NET的站点
 目前支持扫描的编辑器有    
 kindeditor  ueditor  fckeditor  ckeditor  ckfinder  Cuteditor
-多进程是根据cpu核心数量开启的,可以通过-c来设定进程数量但不能超过cpu核心数,也可以通过--force_cpu来强制设定进程数量
+默认多进程开启2个,可以通过-c来设定进程数量但不能超过cpu核心数*5,也可以通过--force_cpu来强制设定进程数量
 感谢JSfinder模块的技术支持：L@2uR1te 师傅
 本人QQ：1723680383
