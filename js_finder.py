@@ -1,7 +1,6 @@
 import requests
 import os
 import time
-import traceback
 from pathlib import Path
 from bs4 import BeautifulSoup
 from config import Color
@@ -79,8 +78,8 @@ def save_js_file(base_url, js_path, id:str):
         # 保存JS文件
         with open(save_path, 'wb') as js_file:  # 使用二进制模式保存
             js_file.write(js_content)
-    except Exception:
-        print(f"保存JS文件时发生错误:{traceback.format_exc()}")
+    except Exception as e:
+        print(f"保存JS文件时发生错误:{e}")
 
 
 def get_js_paths(url, proxy=None, find=None) -> str:
