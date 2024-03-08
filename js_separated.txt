@@ -1,4 +1,0 @@
-/Scripts/
-/FrameResource/
-/FrameResource/js/
-/EasyUI/

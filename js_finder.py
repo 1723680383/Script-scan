@@ -2,6 +2,7 @@ import requests
 import os
 import time
 import traceback
+from pathlib import Path
 from bs4 import BeautifulSoup
 from config import Color
 from colorama import Fore, Style
@@ -24,30 +25,35 @@ js_rules = [
 ]
 
 # 确保目标目录存在
-js_dir = os.path.join('findinfo', 'js')
+js_dir = os.path.join('findinfo', 'JS')
 os.makedirs(js_dir, exist_ok=True)
 
 # 设置控制目录级别的变量
 max_directory_levels = 5
 
-def delete_files_in_js_directory():
-    findinfo_directory = os.path.join(os.getcwd(), 'findinfo')  # 获取findinfo目录的路径
-    js_directory = os.path.join(findinfo_directory, 'JS')  # 构建JS目录的路径
-
+def delete_files_in_js_directory(target_id: str|None = None):
+    # findinfo_directory = os.path.join(os.getcwd(), 'findinfo')  # 获取findinfo目录的路径
+    findinfo_directory = Path.cwd() / 'findinfo'
+    # js_directory = os.path.join(findinfo_directory, 'JS')  # 构建JS目录的路径
+    js_directory = findinfo_directory / 'JS'
+    def del_dir_and_files(dir_path: Path):
+        if not dir_path.exists():
+            return
+        for file_path in dir_path.iterdir():
+            file_path.unlink()
+        dir_path.rmdir()
     try:
         # 检查JS目录是否存在
-        if os.path.exists(js_directory):
+        if js_directory.exists():
             # 删除JS目录中的所有文件
-            for id in os.listdir(js_directory):
-                id_path = os.path.join(js_directory,id)
-                if not os.path.isdir(id_path):
-                    os.remove(id_path)
-                    continue
-                for file_name in os.listdir(id_path):
-                    file_path = os.path.join(id_path, file_name)
-                    if os.path.isfile(file_path):
-                        os.remove(file_path)
-                os.removedirs(id_path)
+            if target_id is not None:
+                del_dir_and_files(js_directory / target_id)
+            else:
+                for id_path in js_directory.iterdir():
+                    if not id_path.is_dir():
+                        id_path.unlink()
+                        continue
+                    del_dir_and_files(id_path)
         else:
             print('在 findinfo 目录中未找到 "JS" 目录。')
     except Exception as e:
@@ -78,6 +84,7 @@ def save_js_file(base_url, js_path, id:str):
 
 
 def get_js_paths(url, proxy=None, find=None) -> str:
+    id = str(time.time()).replace('.','')
     try:
         res = ''
         # 发送GET请求获取网页内容
@@ -116,7 +123,6 @@ def get_js_paths(url, proxy=None, find=None) -> str:
             for i in range(1, min(max_directory_levels + 1, len(directory_parts) - 1)):
                 subpath = '/'.join(directory_parts[:i+1]) + '/'
                 separated_dirs.add(subpath)
-        id = str(time.time()).replace('.','')
         # 打印所有JavaScript文件的路径
         for path in filtered_js_paths:
             matching_rule = None
@@ -150,7 +156,8 @@ def get_js_paths(url, proxy=None, find=None) -> str:
         else:
             print("发生其他值错误:")
     except Exception as e:
-        print("发生其他错误:")
+        print("发生其他错误:{}".format(e))
+        raise
     
     # 继续执行其他操作
     #提取敏感信息
@@ -159,8 +166,7 @@ def get_js_paths(url, proxy=None, find=None) -> str:
         vars = findinfo.scan_findinfo(id)
         if len(vars) != 0:
             res = '-'*30 + f'\n{url+"的敏感信息":^30}\n' + '-'*30 + '\n' + '\n'.join(vars) + '\n'
-    #删除js目录下的所有文件，保证网站JS文件唯一
-    delete_files_in_js_directory()
+    delete_files_in_js_directory(id)
     
     print("正在提取JS文件路径进行爆破")
     return res
